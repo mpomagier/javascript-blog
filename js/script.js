@@ -183,16 +183,22 @@ function generateAuthors() {
   const articles = document.querySelectorAll(optArticleSelector);
 
   /* START LOOP: for every article */
+  for (let article of articles){
 
     /* find author wrapper */
+    const titleElement = article.querySelector(optTitleSelector);
 
     /* get author from data-author attribute */
+    const articleAuthor = article.getAttribute('data-author');
 
     /* generate HTML of the link */
+    const linkHTML = '<a href="#author-' + articleAuthor + '">' + articleAuthor + '</a>';
 
-    /* insert HTML of all the links into the author wrapper */
+    /* insert the link before the title element */
+    titleElement.insertAdjacentHTML('beforebegin', linkHTML);
 
   /* END LOOP: for every article */
   }
+}
 
 generateAuthors();
