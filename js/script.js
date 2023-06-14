@@ -177,3 +177,22 @@ function addClickListenersToTags(){
 }
 
 addClickListenersToTags();
+
+function generateAuthors() {
+  /* find all articles */
+  const articles = document.querySelectorAll(optArticleSelector);
+
+  /* START LOOP: for every article */
+
+    /* find author wrapper */
+
+    /* get author from data-author attribute */
+
+    /* generate HTML of the link */
+
+    /* insert HTML of all the links into the author wrapper */
+
+  /* END LOOP: for every article */
+  }
+
+generateAuthors();
