@@ -62,7 +62,7 @@ function generateTitleLinks(){
     console.log(linkHTML);
 
     /* insert link into titleList */
-    html = html + linkHTML;
+    html += linkHTML;
   }
 
   titleList.innerHTML = html;
@@ -79,7 +79,7 @@ generateTitleLinks();
 function generateTags(){
 
   /* find all articles */
-  const articles = document.querySelectorAll(optArticleTagsSelector);
+  const articles = document.querySelectorAll(optArticleSelector);
 
   /* START LOOP: for every article: */
   for (let article of articles){
@@ -92,20 +92,23 @@ function generateTags(){
 
     /* get tags from data-tags attribute */
     const articleTags = article.getAttribute('data-tags');
-    console.log(articleTags);
+
     /* split tags into array */
-    const tagsArray = articleTags.split(' ');
+    const articleTagsArray = articleTags.split(' ');
 
     /* START LOOP: for each tag */
+    for(let tag of articleTagsArray){
 
       /* generate HTML of the link */
+      const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
 
       /* add generated code to html variable */
+      html += linkHTML + ' ';
 
     /* END LOOP: for each tag */
-
+    }
     /* insert HTML of all the links into the tags wrapper */
-
+    tagList.innerHTML = html;
   /* END LOOP: for every article: */
   }
 }
