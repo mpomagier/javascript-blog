@@ -72,6 +72,13 @@ function generateTitleLinks(customSelector = '') {
   for(let link of links){
     link.addEventListener('click', titleClickHandler);
   }
+  /* display allPostsLink after click in all-posts id */
+  
+  const allPostsLink = document.getElementById('all-posts');
+  allPostsLink.addEventListener('click', function(event) {
+    event.preventDefault();
+    generateTitleLinks();
+  });
 }
 
 generateTitleLinks();
