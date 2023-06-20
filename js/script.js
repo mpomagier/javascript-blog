@@ -38,7 +38,7 @@ const optArticleSelector = '.post';
 const optTitleSelector = '.post-title';
 const optTitleListSelector = '.titles';
 const optArticleTagsSelector = '.post-tags .list';
-const optArticleAuthorSelector = '.post-author';
+const optArticleAuthorSelector = '.data-author';
 
 function generateTitleLinks(customSelector = '') {
 
@@ -187,54 +187,80 @@ function addClickListenersToTags(){
 addClickListenersToTags();
 
 
-function generateAuthors(){
-
-  /* find all articles */
+function generateAuthors() {
+  // Find all articles using the optArticleSelector
   const articles = document.querySelectorAll(optArticleSelector);
 
-  /* START LOOP: for every article: */
-  for (let article of articles){
-    /* make html variable with empty string */
-    let html = '';
+  // Loop through each article
+  for (let article of articles) {
+    // Find the article title element within the current article
+    const articleTitle = article.querySelector(optTitleSelector);
 
-    /* find authors wrapper */
-    const tagList = article.querySelector(optArticleAuthorSelector);
-    tagList.innerHTML = '';
-
-    /* get author from data-author attribute */
+    // Get the author's name from the data-author attribute of the article
     const articleAuthor = article.getAttribute('data-author');
 
-    /* START LOOP: for each author */
-    for(let author of articleAuthor){
+    // Create a new span element to hold the author's name
+    const authorElement = document.createElement('span');
 
-      /* generate HTML of the link */
-      const linkHTML = '<li><a href="#author-' + author + '">' + author + '</a></li>';
+    // Set the inner HTML of the author element to include the author's name
+    authorElement.innerHTML = 'Author: ' + articleAuthor;
 
-      /* add generated code to html variable */
-      html += linkHTML + ' ';
-
-    /* END LOOP: for each tag */
-    }
-    /* insert HTML of all the links into the tags wrapper */
-    tagList.innerHTML = html;
-  /* END LOOP: for every article: */
+    // Insert the author element after the article title
+    articleTitle.insertAdjacentElement('afterend', authorElement);
   }
 }
 
+// Call the generateAuthors function to add author names to the articles
 generateAuthors();
 
 
-function addClickListenersToAuthors(){
-
+function addClickListenersToAuthors() {
   /* find all links to authors */
   const links = document.querySelectorAll('a[href^="#author-"]');
 
   /* START LOOP: for each link */
-  for(let link of links){
-
+  for (let link of links) {
     /* add authorClickHandler as event listener for that link */
     link.addEventListener('click', authorClickHandler);
-
-  /* END LOOP: for each link */
   }
+}
+
+addClickListenersToAuthors();
+
+function authorClickHandler(event) {
+  /* prevent default action for this event */
+  event.preventDefault();
+  console.log('Author was clicked!');
+
+  /* make new constant named "clickedElement" and give it the value of "this" */
+  const clickedElement = this;
+
+  /* make a new constant "href" and read the attribute "href" of the clicked element */
+  const href = clickedElement.getAttribute('href');
+  console.log('href:', href);
+
+  /* make a new constant "author" and extract author from the "href" constant */
+  const author = href.replace('#author-', '');
+
+  /* find all author links with class active */
+  const activeAuthorLinks = document.querySelectorAll('a.active[href^="#author-"]');
+
+  /* START LOOP: for each active author link */
+  for (let activeAuthorLink of activeAuthorLinks) {
+    /* remove class active */
+    activeAuthorLink.classList.remove('active');
+  }
+
+  /* find all author links with "href" attribute equal to the "href" constant */
+  const authorLinks = document.querySelectorAll('a[href="' + href + '"]');
+  console.log('authorLinks:', authorLinks);
+
+  /* START LOOP: for each found author link */
+  for (let authorLink of authorLinks) {
+    /* add class active */
+    authorLink.classList.add('active');
+  }
+
+  /* execute function "generateTitleLinks" with article selector as argument */
+  generateTitleLinks('[data-author="' + author + '"]');
 }
