@@ -39,7 +39,7 @@ const optArticleSelector = '.post';
 const optTitleSelector = '.post-title';
 const optTitleListSelector = '.titles';
 const optArticleTagsSelector = '.post-tags .list';
-const optArticleAuthorSelector = '.data-author';
+const optArticleAuthorSelector = '.post-author';
 const optTagsListSelector = '.tags.list';
 const optCloudClassCount = '5';
 const optCloudClassPrefix = 'tag-size-';
@@ -251,6 +251,7 @@ addClickListenersToTags();
 
 
 function generateAuthors() {
+  console.log('Wywołanie funkcji generateAuthors');
 
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
@@ -263,13 +264,14 @@ function generateAuthors() {
 
     /* find authors wrapper */
     const authorList = article.querySelector(optArticleAuthorSelector);
+    console.log('Wartość zmiennej authorList:', authorList);
     authorList.innerHTML = '';
 
     /* get authors from data-author attribute */
     const articleAuthor = article.getAttribute('data-author');
 
     /* generate HTML of the link */
-    const linkHTML = '<li><a href="#author-' + articleAuthor + '">' + articleAuthor + '</a></li>';
+    const linkHTML = 'Author: <a href="#author-' + articleAuthor + '"> ' + articleAuthor + '</a>';
 
     /* add generated code to html variable */
     html += linkHTML + ' ';
@@ -279,6 +281,7 @@ function generateAuthors() {
 
   /* END LOOP: for every article: */
   }
+
 }
 
 generateAuthors();
@@ -326,7 +329,7 @@ function authorClickHandler(event) {
   }
 
   /* execute function "generateTitleLinks" with article selector as argument */
-  generateTitleLinks('[data-authors="' + author + '"]');
+  generateTitleLinks('[data-author="' + author + '"]');
 }
 
 
